@@ -3,7 +3,7 @@ require('dotenv').config();
 const Web3 = require('web3');
 const HdWalletProvider = require('@truffle/hdwallet-provider');
 
-const { interface, bytecode } = require('./compile');
+const { abi, evm } = require('./compile');
 
 const provider = new HdWalletProvider(process.env.TEST_PHRASE, process.env.TEST_RINKEBY_NODE)
 
@@ -15,8 +15,8 @@ const deploy = async () => {
   console.log(`deploying contract from account ${accounts[0]} ...`);
 
   const deployedContract = await new web3.eth
-    .Contract(JSON.parse(interface))
-    .deploy({ data: bytecode, arguments: ['First contract!'] })
+    .Contract(abi)
+    .deploy({ data: evm.bytecode.object, arguments: ['First contract!'] })
     .send({ from: accounts[0], gas: '1000000' });
 
   console.log(`\n`);
