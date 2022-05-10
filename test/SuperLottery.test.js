@@ -140,8 +140,11 @@ describe('Super Lottery Testing', () => {
 
       const difference = finalBalance - initialBalance;
 
+      const contractBalance = await web3.eth.getBalance(lotteryContract.options.address);
+
       assert.equal(difference, web3.utils.toWei('3', 'ether'));
       assert.equal(players.length, 0);
+      assert.equal(contractBalance, 0);
     })
   });
 });
