@@ -1,4 +1,5 @@
 import web3 from "../web3";
+import { NETWORKS } from "../constants";
 
 const address = '0xb3DDe169eBBe0D7e6cc0c2d4C143bf9cF4A03a1c';
 
@@ -70,4 +71,6 @@ const abi = [
 ]
 
 // creating a local copy of lottery contract methods
-export default new web3.eth.Contract(abi, address);
+let contractInstance = new web3.eth.Contract(abi, address);
+
+export default contractInstance;

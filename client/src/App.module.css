@@ -7,6 +7,8 @@
 
 .header {
   position: fixed;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 50px;
   padding: 20px 20px;
@@ -21,6 +23,7 @@
 .title {
   font-size: 3rem;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .subtitle {
@@ -31,7 +34,7 @@
 }
 
 .manager {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   padding-bottom: 20px;
   font-weight: bold;
   color: rgb(44, 89, 131);
@@ -72,4 +75,45 @@
 span {
   font-weight: bold;
   color:gray;
+}
+
+.players, .balance {
+  margin-bottom: 10px;
+}
+
+.disconnect {
+  margin-left: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  display: block;
+  margin-right: 10px;
+}
+
+.inputCont {
+  display: flex;
+  align-items: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.join {
+  padding: 10px 0px;
+  width: 400px;
+  margin: 40px 0;
+  background-color: rgb(104, 210, 104);
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
