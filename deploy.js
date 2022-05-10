@@ -50,7 +50,7 @@ const deploy = async () => {
   }
 
   // address : 0x8F1f94F869e1ed81df886B813F74d7aaC4F5031D // inbox contract
-  // address : 0x8F1f94F869e1ed81df886B813F74d7aaC4F5031D // inbox contract
+  // address : 0xb3DDe169eBBe0D7e6cc0c2d4C143bf9cF4A03a1c // lottery contract
   provider.engine.stop();
 };
 
