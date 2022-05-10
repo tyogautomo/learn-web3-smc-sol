@@ -11,18 +11,18 @@ contract SuperLottery {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == manager, "Winner can only determined by Manager.");
+        require(msg.sender == manager, "only running by Manager.");
         _;
     }
 
     modifier noOwner() {
-        require(msg.sender != manager, "Owner can't enter the ganme");
+        require(msg.sender != manager, "Owner can't enter the game");
         _;
     }
 
     modifier onlyOnce() {
         bool isExist = false;
-        for (uint i = 0; i < players.length; i++) {
+        for (uint256 i = 0; i < players.length; i++) {
             if (players[i] == msg.sender) {
                 isExist = true;
             }
@@ -37,18 +37,23 @@ contract SuperLottery {
         players.push(payable(msg.sender));
     }
 
-    function getPlayers() public view returns(address payable[] memory) {
+    function getPlayers() public view returns (address payable[] memory) {
         return players;
     }
 
-    function random() private view returns(uint) {
+    function random() private view returns (uint256) {
         // currently is hard to random a number in solidity, so i used the pseudo random logic (not literally random)
-        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players))); // keccak256 same as sha3
+        return
+            uint256(
+                keccak256(
+                    abi.encodePacked(block.difficulty, block.timestamp, players)
+                )
+            ); // keccak256 same as sha3
     }
 
     function pickWinner() public onlyOwner {
-        uint idx = random() % players.length;
-        
+        uint256 idx = random() % players.length;
+
         players[idx].transfer(address(this).balance);
 
         players = new address payable[](0);
