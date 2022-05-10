@@ -3,7 +3,7 @@ const ganache = require('ganache');
 const { describe } = require('mocha');
 const Web3 = require('web3');
 
-const { abi, evm } = require('../compile');
+const { inboxContractCmp: { abi, evm } } = require('../compile');
 const { INITIAL_MESSAGE, NEW_MESSAGE } = require('../utils/constants');
 
 const web3 = new Web3(ganache.provider()); // connect to local test network
