@@ -7,6 +7,7 @@ contract SuperLottery {
 
     constructor() {
         manager = msg.sender;
+        players = new address payable[](0);
     }
 
     modifier onlyOwner() {
@@ -19,7 +20,18 @@ contract SuperLottery {
         _;
     }
 
-    function enterGame() public payable noOwner {
+    modifier onlyOnce() {
+        bool isExist = false;
+        for (uint i = 0; i < players.length; i++) {
+            if (players[i] == msg.sender) {
+                isExist = true;
+            }
+        }
+        require(isExist == false, "User already join the lottery");
+        _;
+    }
+
+    function enterGame() public payable noOwner onlyOnce {
         require(msg.value > 0.01 ether, "Minimum Ether is 0.011 Ether");
 
         players.push(payable(msg.sender));
