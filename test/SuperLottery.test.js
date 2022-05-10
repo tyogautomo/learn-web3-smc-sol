@@ -115,10 +115,33 @@ describe('Super Lottery Testing', () => {
           from: accounts[1],
         });
       } catch (error) {
-        assert(error.data.reason, 'only running by Manager.');
+        assert.equal(error.data.reason, 'only running by Manager.');
         return;
       }
       assert(false);
     });
+    // end to end test
+    it('should send money to winner, and reset the players to empty array', async function () {
+      // const beforeBalance = await web3.eth.getBalance(accounts[1]);
+
+      await lotteryContract.methods.enterGame().send({
+        from: accounts[1],
+        value: web3.utils.toWei('3', 'ether'),
+      });
+
+      const initialBalance = await web3.eth.getBalance(accounts[1]);
+
+      await lotteryContract.methods.pickWinner().send({
+        from: accounts[0],
+      });
+      const players = await lotteryContract.methods.getPlayers().call();
+
+      const finalBalance = await web3.eth.getBalance(accounts[1]);
+
+      const difference = finalBalance - initialBalance;
+
+      assert.equal(difference, web3.utils.toWei('3', 'ether'));
+      assert.equal(players.length, 0);
+    })
   });
 });
