@@ -14,6 +14,10 @@ function App() {
   const [players, setPlayers] = useState(0);
   const [inputValue, setInputValue] = useState(0);
 
+  const [isLoadingEnter, setIsLoadingEnter] = useState(false);
+  const [isLoadingWinner, setIsLoadingWinner] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
   const [contractError, setContractError] = useState(null);
 
   useEffect(() => {
@@ -24,8 +28,7 @@ function App() {
     })
 
     window.ethereum.on('accountsChanged', accounts => {
-      setCurrentChain('');
-      setCurrentAddress(accounts[0])
+      setCurrentAddress(accounts[0]);
     })
   }, []);
 
@@ -79,17 +82,43 @@ function App() {
   };
 
   const enter = async (e) => {
-    e.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    await lotteryContract.methods.enterGame().send({
-      from: accounts[0],
-      value: web3.utils.toWei('0.011', 'ether'),
-    });
+    try {
+      e.preventDefault();
+      setIsLoadingEnter(true);
+      const accounts = await web3.eth.getAccounts();
+      await lotteryContract.methods.enterGame().send({
+        from: accounts[0],
+        value: web3.utils.toWei(`${inputValue}`, 'ether'),
+      });
+      setSuccessMessage('Successfully entering the GAME!!!!');
+    } catch (error) {
+      console.log(error, 'error <<<<<');
+    } finally {
+      setIsLoadingEnter(false);
+    }
+  };
+
+  const pickAWinner = async () => {
+    try {
+      setIsLoadingWinner(true);
+      const accounts = await web3.eth.getAccounts();
+      await lotteryContract.methods.pickWinner().send({
+        from: accounts[0],
+      });
+    } catch (error) {
+      getRPCErrorMessage(error)
+    } finally {
+      setIsLoadingWinner(false);
+    }
   };
 
   const onChange = (e) => {
     setInputValue(e.target.value);
-  }
+  };
+
+  const getRPCErrorMessage = async (err) => {
+    console.log(err, 'errorzzzzzz');
+  };
 
   return (
     <div className={styles.container}>
@@ -128,8 +157,16 @@ function App() {
               />
               <h4>Ether</h4>
             </div>
-            <button onClick={enter} className={styles.join}>JOIN THE GAME!</button>
+            {isLoadingEnter ? (
+              <h3 className={styles.loading}>Loading entering the game.....</h3>
+            ) : (
+              <button onClick={enter} className={styles.join}>JOIN THE GAME!</button>
+            )}
           </form>
+          <h2 className={styles.successMessage}>{successMessage}</h2>
+          <hr />
+          <h2>Pick a Winner?</h2>
+          <button onClick={pickAWinner}>Pick a winner</button>
         </>
       )}
     </div>

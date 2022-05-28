@@ -117,3 +117,17 @@ h2 {
   font-weight: bold;
   font-size: 1.2rem;
 }
+
+.loading {
+  margin-top: 30px;
+}
+
+.successMessage {
+  color: rgb(34, 224, 34);
+  margin-top: 10px;
+}
+
+hr {
+  width: 80%;
+  margin-bottom: 20px;
+}

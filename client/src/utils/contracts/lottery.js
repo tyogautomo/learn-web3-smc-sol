@@ -1,5 +1,4 @@
 import web3 from "../web3";
-import { NETWORKS } from "../constants";
 
 const address = '0xb3DDe169eBBe0D7e6cc0c2d4C143bf9cF4A03a1c';
 
